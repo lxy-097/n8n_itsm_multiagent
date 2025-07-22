@@ -107,10 +107,7 @@ n8n_itsm_multi_agent/
 ### 2. **Run Workflows**
 
 * Mark the `Core Workflow` as Active
-![alt text](image.png)
-
 * Trigger the chat workflow by sending a message in the chatbox
-![alt text](image-1.png)
 
 ### 3. **Interaction with Chat Agent**
 
