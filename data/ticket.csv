@@ -1,0 +1,5 @@
+account_id,ticket_id,issue_summary,issue_description,creation_timestamp,resolution,escalation_status
+ajohnson,T1,Outlook data file inaccessible,User reports: Outlook won't open. Says data file cannot be accessed.,2024-07-15 09:15:22,Guided user through password reset procedure. User confirmed access.,No
+bwilliams,T2,Mobile app crash on login,User on Android device experiences crash during login to mobile banking app.,2024-07-15 09:28:14,Initial troubleshooting failed. Hardware damage suspected.,No
+cbrown,T3,System BSOD with kernel error,Blue screen during login: 'KERNEL_DATA_INPAGE_ERROR'. Memory dump showed disk I/O issues.,2024-07-15 09:45:50,Created access request sub-task. Awaiting manager approval.,Yes
+ajohnson,TID71203,core banking domain cannot be reached,"Solutions already suggested: Check DNS settings and corporate firewall policies, Check internal VPN or proxy server configurations, Verify system time and TLS certificate validity, Ensure the user has the correct Active Drectory permissions and retry..",2024-05-23T12:55:25.263Z,unresolved,unassigned

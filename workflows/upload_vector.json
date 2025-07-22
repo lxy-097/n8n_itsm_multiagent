@@ -1,0 +1,47 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Update Error Code Data",
+        "formDescription": "Upload Error Code Data",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Data File",
+              "fieldType": "file",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Submit",
+          "respondWithOptions": {
+            "values": {
+              "formSubmittedText": "Data file has been recorded"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        0,
+        100
+      ],
+      "id": "d2a1f3f7-c89a-4711-b502-45d0292adc62",
+      "name": "Data Form submission",
+      "webhookId": "cfdce212-3542-4f21-9b89-32e52d57b10b"
+    }
+  ],
+  "connections": {
+    "Data Form submission": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "19bdfbd95b07aa99939e224b3b087290adf505a07efc738993dc0ba4e62d32d9"
+  }
+}

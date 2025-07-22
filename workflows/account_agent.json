@@ -1,0 +1,274 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"name\": \"create_ticket\",\n  \"description\": \"Create a support ticket\",\n  \"parameters\": {\n    \"userId\": { \"type\": \"string\" },\n    \"issue\": { \"type\": \"string\" }\n  }\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        260,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=You are the Ticketing Agent in a Banking IT Service Management (ITSM) system. Your job is to handle ticket-related user queries by selecting the correct tool to either create a new ticket or retrieve an existing ticket.\n\nThink step-by-step:\nUnderstand the user's intent from this message:\n{{ $json.query }}\n\nDecide what the user wants:\n\nIf they want to check, view, or ask about a ticket's status or details, select the tool:\n- Get Ticket Details\n\nIf they want to report a new issue, raise a concern, or mention a problem, select the tool:\n- Create Ticket\n\nIf you're not sure what they want or their input is unclear, ask a short follow-up question.\n\nRespond with the selected tool's output, or pass parameters to it (like ticketId, issueDescription).\n\n- Tool List:\n--Get Ticket Details: Use this to retrieve info about an existing ticket. Requires ticketId.\n\n--Create Ticket: Use this to log a new issue. Requires a description of the problem.\n\nOnce the correct tool is selected and necessary inputs are available, submit the tool to MCP Client."
+        }
+      },
+      "id": "7bb179e6-4cb2-4f65-aee3-a95ceb05f98a",
+      "name": "Ticketing Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "position": [
+        720,
+        220
+      ],
+      "typeVersion": 1.8
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use check_ticket_info(user_id, [ticket_id]) to get details about a user's existing support tickets. As seen with Charlie Brown (INC0010236), this is crucial for initial assessment to see if a user already has an open issue, its current status, and what the problem is. Always use this tool first to determine if a ticket already exists and to gather context before deciding to create a new one or take further action. The output will provide the ticket's status, description, and other relevant data, guiding your next step.",
+        "documentId": {
+          "__rl": true,
+          "value": "1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I",
+          "mode": "list",
+          "cachedResultName": "database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 453380142,
+          "mode": "list",
+          "cachedResultName": "ticket",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I/edit#gid=453380142"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        1280,
+        460
+      ],
+      "id": "b01fc9aa-22cc-44ad-be63-4367769895ca",
+      "name": "Check Ticket Details",
+      "retryOnFail": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mVvcnIZRVqlLzAre",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use create_ticket(user_id, issue_description, [priority], [issue_type], [escalation_level]) to open a new support ticket. As demonstrated by Alice Johnson (INC0010234) and Bob Williams (INC0010235), this tool is the primary method for logging any new user issue. Only use this tool if check_ticket_info() confirms no active ticket exists for the user's current issue, or if a new, distinct issue is being reported. Ensure issue_description is as detailed as possible based on the user's input, as this forms the basis for all subsequent troubleshooting or escalation. The tool will return the new ticket ID upon success.",
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I",
+          "mode": "list",
+          "cachedResultName": "database",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "account",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1q6zJGEYfpSQoAO6cWVZZ__cC6_4G2NUSX9l-fojVU3I/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "Account ID"
+          ],
+          "schema": [
+            {
+              "id": "Account ID",
+              "displayName": "Account ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Job Title",
+              "displayName": "Job Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Department",
+              "displayName": "Department",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.6,
+      "position": [
+        1460,
+        460
+      ],
+      "id": "f43974ec-e088-4eda-9afd-28da313e0e62",
+      "name": "Create New Ticket",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "mVvcnIZRVqlLzAre",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "4124f456-feaa-4d4f-8ff5-a13b2f871027"
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpTrigger",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        220
+      ],
+      "id": "ac2c522d-ede5-4865-9286-7a5998f6e90c",
+      "name": "MCP Server Trigger (Ticket)",
+      "webhookId": "4124f456-feaa-4d4f-8ff5-a13b2f871027"
+    },
+    {
+      "parameters": {
+        "sseEndpoint": "https://leliew.app.n8n.cloud/mcp/4124f456-feaa-4d4f-8ff5-a13b2f871027",
+        "include": "selected",
+        "includeTools": [
+          "Check_Account_Details"
+        ]
+      },
+      "type": "@n8n/n8n-nodes-langchain.mcpClientTool",
+      "typeVersion": 1,
+      "position": [
+        980,
+        440
+      ],
+      "id": "2fefa582-d286-42ed-8104-5b848f747439",
+      "name": "MCP Client"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-1.5-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        660,
+        440
+      ],
+      "id": "f743866c-290b-48bd-be1b-5c8b1cff5974",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "DPevWuu93R6zT1WO",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Ticketing Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Ticket Details": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger (Ticket)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create New Ticket": {
+      "ai_tool": [
+        [
+          {
+            "node": "MCP Server Trigger (Ticket)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MCP Client": {
+      "ai_tool": [
+        [
+          {
+            "node": "Ticketing Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Ticketing Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "19bdfbd95b07aa99939e224b3b087290adf505a07efc738993dc0ba4e62d32d9"
+  }
+}
